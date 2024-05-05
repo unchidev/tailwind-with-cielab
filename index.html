@@ -4,184 +4,89 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tailwind + CIELAB </title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     const chroma = window.chroma;
 
+    const labred = chroma.lab(50, 100, 100);
+    const labpink = chroma.lab(50, 100, 0);
+    const labyellow = chroma.lab(50, 0, 100);
+    const labgreen = chroma.lab(50, -100, 100);
+    const labsky = chroma.lab(50, -100, -100);
+    const labblue = chroma.lab(50, 0, -100);
+    const labpurple = chroma.lab(50, 100, -100);
+    const labgray = chroma.lab(50, 0, 0);
+
+    const tailwindColors = (chromaObject) => {
+      return {
+        50: chromaObject.brighten(2.5).hex(),
+        100: chromaObject.brighten(2.0).hex(),
+        200: chromaObject.brighten(1.5).hex(),
+        300: chromaObject.brighten(1.0).hex(),
+        400: chromaObject.brighten(0.5).hex(),
+        500: chromaObject.brighten(0.0).hex(),
+        600: chromaObject.brighten(-0.5).hex(),
+        700: chromaObject.brighten(-1.0).hex(),
+        800: chromaObject.brighten(-1.5).hex(),
+        900: chromaObject.brighten(-2.0).hex(),
+      }
+    }
+
+    const tailwindLinearGradientColors = (colorName) => {
+      const colorObjects = {
+        labred,
+        labpink,
+        labyellow,
+        labgreen,
+        labsky,
+        labblue,
+        labpurple,
+        labgray,
+      }
+
+      const results = {}
+      results[colorName + 'lg-50'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(2.5).hex() + ', ' + colorObjects[colorName].brighten(2.0).hex() + ')'
+      results[colorName + 'lg-100'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(2.0).hex() + ', ' + colorObjects[colorName].brighten(1.5).hex() + ')'
+      results[colorName + 'lg-200'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(1.5).hex() + ', ' + colorObjects[colorName].brighten(1.0).hex() + ')'
+      results[colorName + 'lg-300'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(1.0).hex() + ', ' + colorObjects[colorName].brighten(0.5).hex() + ')'
+      results[colorName + 'lg-400'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(0.5).hex() + ', ' + colorObjects[colorName].hex() + ')'
+      results[colorName + 'lg-500'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].hex() + ', ' + colorObjects[colorName].darken(0.5).hex() + ')'
+      results[colorName + 'lg-600'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(0.5).hex() + ', ' + colorObjects[colorName].darken(1.0).hex() + ')'
+      results[colorName + 'lg-700'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(1.0).hex() + ', ' + colorObjects[colorName].darken(1.5).hex() + ')'
+      results[colorName + 'lg-800'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(1.5).hex() + ', ' + colorObjects[colorName].darken(2.0).hex() + ')'
+      results[colorName + 'lg-900'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(2.0).hex() + ', ' + colorObjects[colorName].darken(2.5).hex() + ')'
+
+      return results;
+    }
+
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            labred: {
-              100: chroma.lab(90, 100, 100).hex(),
-              200: chroma.lab(80, 100, 100).hex(),
-              300: chroma.lab(70, 100, 100).hex(),
-              400: chroma.lab(60, 100, 100).hex(),
-              500: chroma.lab(50, 100, 100).hex(),
-              600: chroma.lab(40, 100, 100).hex(),
-              700: chroma.lab(30, 100, 100).hex(),
-              800: chroma.lab(20, 100, 100).hex(),
-              900: chroma.lab(10, 100, 100).hex(),
-            },
-            labpink: {
-              100: chroma.lab(90, 100, 0).hex(),
-              200: chroma.lab(80, 100, 0).hex(),
-              300: chroma.lab(70, 100, 0).hex(),
-              400: chroma.lab(60, 100, 0).hex(),
-              500: chroma.lab(50, 100, 0).hex(),
-              600: chroma.lab(40, 100, 0).hex(),
-              700: chroma.lab(30, 100, 0).hex(),
-              800: chroma.lab(20, 100, 0).hex(),
-              900: chroma.lab(10, 100, 0).hex(),
-            },
-            labyellow: {
-              100: chroma.lab(90, 0, 100).hex(),
-              200: chroma.lab(80, 0, 100).hex(),
-              300: chroma.lab(70, 0, 100).hex(),
-              400: chroma.lab(60, 0, 100).hex(),
-              500: chroma.lab(50, 0, 100).hex(),
-              600: chroma.lab(40, 0, 100).hex(),
-              700: chroma.lab(30, 0, 100).hex(),
-              800: chroma.lab(20, 0, 100).hex(),
-              900: chroma.lab(10, 0, 100).hex(),
-            },
-            labgreen: {
-              100: chroma.lab(90, -100, 100).hex(),
-              200: chroma.lab(80, -100, 100).hex(),
-              300: chroma.lab(70, -100, 100).hex(),
-              400: chroma.lab(60, -100, 100).hex(),
-              500: chroma.lab(50, -100, 100).hex(),
-              600: chroma.lab(40, -100, 100).hex(),
-              700: chroma.lab(30, -100, 100).hex(),
-              800: chroma.lab(20, -100, 100).hex(),
-              900: chroma.lab(10, -100, 100).hex(),
-            },
-            labsky: {
-              100: chroma.lab(90, -1000, -100).hex(),
-              200: chroma.lab(80, -1000, -100).hex(),
-              300: chroma.lab(70, -1000, -100).hex(),
-              400: chroma.lab(60, -1000, -100).hex(),
-              500: chroma.lab(50, -1000, -100).hex(),
-              600: chroma.lab(40, -1000, -100).hex(),
-              700: chroma.lab(30, -1000, -100).hex(),
-              800: chroma.lab(20, -1000, -100).hex(),
-              900: chroma.lab(10, -1000, -100).hex(),
-            },
-            labblue: {
-              100: chroma.lab(90, 0, -100).hex(),
-              200: chroma.lab(80, 0, -100).hex(),
-              300: chroma.lab(70, 0, -100).hex(),
-              400: chroma.lab(60, 0, -100).hex(),
-              500: chroma.lab(50, 0, -100).hex(),
-              600: chroma.lab(40, 0, -100).hex(),
-              700: chroma.lab(30, 0, -100).hex(),
-              800: chroma.lab(20, 0, -100).hex(),
-              900: chroma.lab(10, 0, -100).hex(),
-            },
-            labpurple: {
-              100: chroma.lab(90, 100, -100).hex(),
-              200: chroma.lab(80, 100, -100).hex(),
-              300: chroma.lab(70, 100, -100).hex(),
-              400: chroma.lab(60, 100, -100).hex(),
-              500: chroma.lab(50, 100, -100).hex(),
-              600: chroma.lab(40, 100, -100).hex(),
-              700: chroma.lab(30, 100, -100).hex(),
-              800: chroma.lab(20, 100, -100).hex(),
-              900: chroma.lab(10, 100, -100).hex(),
-            },
-            labgray: {
-              100: chroma.lab(90, 0, 0).hex(),
-              200: chroma.lab(80, 0, 0).hex(),
-              300: chroma.lab(70, 0, 0).hex(),
-              400: chroma.lab(60, 0, 0).hex(),
-              500: chroma.lab(50, 0, 0).hex(),
-              600: chroma.lab(40, 0, 0).hex(),
-              700: chroma.lab(30, 0, 0).hex(),
-              800: chroma.lab(20, 0, 0).hex(),
-              900: chroma.lab(10, 0, 0).hex(),
-            }
+            labred: tailwindColors(labred),
+            labpink: tailwindColors(labpink),
+            labyellow: tailwindColors(labyellow),
+            labgreen: tailwindColors(labgreen),
+            labsky: tailwindColors(labsky),
+            labblue: tailwindColors(labblue),
+            labpurple: tailwindColors(labpurple),
+            labgray: tailwindColors(labgray)
           },
           backgroundImage: {
-            'labredlg-100': `linear-gradient(to bottom, ${chroma.lab(90, 100, 100).hex()}, ${chroma.lab(90, 100, 100).darken(0.5).hex()})`,
-            'labredlg-200': `linear-gradient(to bottom, ${chroma.lab(80, 100, 100).hex()}, ${chroma.lab(80, 100, 100).darken(0.5).hex()})`,
-            'labredlg-300': `linear-gradient(to bottom, ${chroma.lab(70, 100, 100).hex()}, ${chroma.lab(70, 100, 100).darken(0.5).hex()})`,
-            'labredlg-400': `linear-gradient(to bottom, ${chroma.lab(60, 100, 100).hex()}, ${chroma.lab(60, 100, 100).darken(0.5).hex()})`,
-            'labredlg-500': `linear-gradient(to bottom, ${chroma.lab(50, 100, 100).hex()}, ${chroma.lab(50, 100, 100).darken(0.5).hex()})`,
-            'labredlg-600': `linear-gradient(to bottom, ${chroma.lab(40, 100, 100).hex()}, ${chroma.lab(40, 100, 100).darken(0.5).hex()})`,
-            'labredlg-700': `linear-gradient(to bottom, ${chroma.lab(30, 100, 100).hex()}, ${chroma.lab(30, 100, 100).darken(0.5).hex()})`,
-            'labredlg-800': `linear-gradient(to bottom, ${chroma.lab(20, 100, 100).hex()}, ${chroma.lab(20, 100, 100).darken(0.5).hex()})`,
-            'labredlg-900': `linear-gradient(to bottom, ${chroma.lab(10, 100, 100).hex()}, ${chroma.lab(10, 100, 100).darken(0.5).hex()})`,
-
-            'labpinklg-100': `linear-gradient(to bottom, ${chroma.lab(90, 100, 0).hex()}, ${chroma.lab(90, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-200': `linear-gradient(to bottom, ${chroma.lab(80, 100, 0).hex()}, ${chroma.lab(80, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-300': `linear-gradient(to bottom, ${chroma.lab(70, 100, 0).hex()}, ${chroma.lab(70, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-400': `linear-gradient(to bottom, ${chroma.lab(60, 100, 0).hex()}, ${chroma.lab(60, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-500': `linear-gradient(to bottom, ${chroma.lab(50, 100, 0).hex()}, ${chroma.lab(50, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-600': `linear-gradient(to bottom, ${chroma.lab(40, 100, 0).hex()}, ${chroma.lab(40, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-700': `linear-gradient(to bottom, ${chroma.lab(30, 100, 0).hex()}, ${chroma.lab(30, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-800': `linear-gradient(to bottom, ${chroma.lab(20, 100, 0).hex()}, ${chroma.lab(20, 100, 0).darken(0.5).hex()})`,
-            'labpinklg-900': `linear-gradient(to bottom, ${chroma.lab(10, 100, 0).hex()}, ${chroma.lab(10, 100, 0).darken(0.5).hex()})`,
-
-            'labyellowlg-100': `linear-gradient(to bottom, ${chroma.lab(90, 0, 100).hex()}, ${chroma.lab(90, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-200': `linear-gradient(to bottom, ${chroma.lab(80, 0, 100).hex()}, ${chroma.lab(80, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-300': `linear-gradient(to bottom, ${chroma.lab(70, 0, 100).hex()}, ${chroma.lab(70, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-400': `linear-gradient(to bottom, ${chroma.lab(60, 0, 100).hex()}, ${chroma.lab(60, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-500': `linear-gradient(to bottom, ${chroma.lab(50, 0, 100).hex()}, ${chroma.lab(50, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-600': `linear-gradient(to bottom, ${chroma.lab(40, 0, 100).hex()}, ${chroma.lab(40, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-700': `linear-gradient(to bottom, ${chroma.lab(30, 0, 100).hex()}, ${chroma.lab(30, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-800': `linear-gradient(to bottom, ${chroma.lab(20, 0, 100).hex()}, ${chroma.lab(20, 0, 100).darken(0.5).hex()})`,
-            'labyellowlg-900': `linear-gradient(to bottom, ${chroma.lab(10, 0, 100).hex()}, ${chroma.lab(10, 0, 100).darken(0.5).hex()})`,
-
-            'labgreenlg-100': `linear-gradient(to bottom, ${chroma.lab(90, -100, 100).hex()}, ${chroma.lab(90, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-200': `linear-gradient(to bottom, ${chroma.lab(80, -100, 100).hex()}, ${chroma.lab(80, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-300': `linear-gradient(to bottom, ${chroma.lab(70, -100, 100).hex()}, ${chroma.lab(70, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-400': `linear-gradient(to bottom, ${chroma.lab(60, -100, 100).hex()}, ${chroma.lab(60, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-500': `linear-gradient(to bottom, ${chroma.lab(50, -100, 100).hex()}, ${chroma.lab(50, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-600': `linear-gradient(to bottom, ${chroma.lab(40, -100, 100).hex()}, ${chroma.lab(40, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-700': `linear-gradient(to bottom, ${chroma.lab(30, -100, 100).hex()}, ${chroma.lab(30, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-800': `linear-gradient(to bottom, ${chroma.lab(20, -100, 100).hex()}, ${chroma.lab(20, -100, 100).darken(0.5).hex()})`,
-            'labgreenlg-900': `linear-gradient(to bottom, ${chroma.lab(10, -100, 100).hex()}, ${chroma.lab(10, -100, 100).darken(0.5).hex()})`,
-
-            'labskylg-100': `linear-gradient(to bottom, ${chroma.lab(90, -1000, -100).hex()}, ${chroma.lab(90, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-200': `linear-gradient(to bottom, ${chroma.lab(80, -1000, -100).hex()}, ${chroma.lab(80, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-300': `linear-gradient(to bottom, ${chroma.lab(70, -1000, -100).hex()}, ${chroma.lab(70, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-400': `linear-gradient(to bottom, ${chroma.lab(60, -1000, -100).hex()}, ${chroma.lab(60, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-500': `linear-gradient(to bottom, ${chroma.lab(50, -1000, -100).hex()}, ${chroma.lab(50, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-600': `linear-gradient(to bottom, ${chroma.lab(40, -1000, -100).hex()}, ${chroma.lab(40, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-700': `linear-gradient(to bottom, ${chroma.lab(30, -1000, -100).hex()}, ${chroma.lab(30, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-800': `linear-gradient(to bottom, ${chroma.lab(20, -1000, -100).hex()}, ${chroma.lab(20, -1000, -100).darken(0.5).hex()})`,
-            'labskylg-900': `linear-gradient(to bottom, ${chroma.lab(10, -1000, -100).hex()}, ${chroma.lab(10, -1000, -100).darken(0.5).hex()})`,
-
-            'labbluelg-100': `linear-gradient(to bottom, ${chroma.lab(90, 0, -100).hex()}, ${chroma.lab(90, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-200': `linear-gradient(to bottom, ${chroma.lab(80, 0, -100).hex()}, ${chroma.lab(80, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-300': `linear-gradient(to bottom, ${chroma.lab(70, 0, -100).hex()}, ${chroma.lab(70, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-400': `linear-gradient(to bottom, ${chroma.lab(60, 0, -100).hex()}, ${chroma.lab(60, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-500': `linear-gradient(to bottom, ${chroma.lab(50, 0, -100).hex()}, ${chroma.lab(50, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-600': `linear-gradient(to bottom, ${chroma.lab(40, 0, -100).hex()}, ${chroma.lab(40, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-700': `linear-gradient(to bottom, ${chroma.lab(30, 0, -100).hex()}, ${chroma.lab(30, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-800': `linear-gradient(to bottom, ${chroma.lab(20, 0, -100).hex()}, ${chroma.lab(20, 0, -100).darken(0.5).hex()})`,
-            'labbluelg-900': `linear-gradient(to bottom, ${chroma.lab(10, 0, -100).hex()}, ${chroma.lab(10, 0, -100).darken(0.5).hex()})`,
-
-            'labpurplelg-100': `linear-gradient(to bottom, ${chroma.lab(90, 100, -100).hex()}, ${chroma.lab(90, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-200': `linear-gradient(to bottom, ${chroma.lab(80, 100, -100).hex()}, ${chroma.lab(80, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-300': `linear-gradient(to bottom, ${chroma.lab(70, 100, -100).hex()}, ${chroma.lab(70, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-400': `linear-gradient(to bottom, ${chroma.lab(60, 100, -100).hex()}, ${chroma.lab(60, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-500': `linear-gradient(to bottom, ${chroma.lab(50, 100, -100).hex()}, ${chroma.lab(50, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-600': `linear-gradient(to bottom, ${chroma.lab(40, 100, -100).hex()}, ${chroma.lab(40, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-700': `linear-gradient(to bottom, ${chroma.lab(30, 100, -100).hex()}, ${chroma.lab(30, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-800': `linear-gradient(to bottom, ${chroma.lab(20, 100, -100).hex()}, ${chroma.lab(20, 100, -100).darken(0.5).hex()})`,
-            'labpurplelg-900': `linear-gradient(to bottom, ${chroma.lab(10, 100, -100).hex()}, ${chroma.lab(10, 100, -100).darken(0.5).hex()})`,
-
-            'labgraylg-100': `linear-gradient(to bottom, ${chroma.lab(90, 0, 0).hex()}, ${chroma.lab(90, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-200': `linear-gradient(to bottom, ${chroma.lab(80, 0, 0).hex()}, ${chroma.lab(80, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-300': `linear-gradient(to bottom, ${chroma.lab(70, 0, 0).hex()}, ${chroma.lab(70, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-400': `linear-gradient(to bottom, ${chroma.lab(60, 0, 0).hex()}, ${chroma.lab(60, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-500': `linear-gradient(to bottom, ${chroma.lab(50, 0, 0).hex()}, ${chroma.lab(50, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-600': `linear-gradient(to bottom, ${chroma.lab(40, 0, 0).hex()}, ${chroma.lab(40, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-700': `linear-gradient(to bottom, ${chroma.lab(30, 0, 0).hex()}, ${chroma.lab(30, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-800': `linear-gradient(to bottom, ${chroma.lab(20, 0, 0).hex()}, ${chroma.lab(20, 0, 0).darken(0.5).hex()})`,
-            'labgraylg-900': `linear-gradient(to bottom, ${chroma.lab(10, 0, 0).hex()}, ${chroma.lab(10, 0, 0).darken(0.5).hex()})`,
+            ...tailwindLinearGradientColors('labred'),
+            ...tailwindLinearGradientColors('labpink'),
+            ...tailwindLinearGradientColors('labyellow'),
+            ...tailwindLinearGradientColors('labgreen'),
+            ...tailwindLinearGradientColors('labsky'),
+            ...tailwindLinearGradientColors('labblue'),
+            ...tailwindLinearGradientColors('labpurple'),
+            ...tailwindLinearGradientColors('labgray'),
           }
         }
       }
@@ -194,6 +99,7 @@
   <div class="flex">
     <!-- red -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labred-50 hover:bg-labred-100 text-white py-2 px-4 rounded">Red: 50</button>
       <button class="bg-labred-100 hover:bg-labred-200 text-white py-2 px-4 rounded">Red: 100</button>
       <button class="bg-labred-200 hover:bg-labred-300 text-white py-2 px-4 rounded">Red: 200</button>
       <button class="bg-labred-300 hover:bg-labred-400 text-white py-2 px-4 rounded">Red: 300</button>
@@ -207,6 +113,7 @@
 
     <!-- pink -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labpink-50 hover:bg-labpink-100 text-white py-2 px-4 rounded">Pink: 50</button>
       <button class="bg-labpink-100 hover:bg-labpink-200 text-white py-2 px-4 rounded">Pink: 100</button>
       <button class="bg-labpink-200 hover:bg-labpink-300 text-white py-2 px-4 rounded">Pink: 200</button>
       <button class="bg-labpink-300 hover:bg-labpink-400 text-white py-2 px-4 rounded">Pink: 300</button>
@@ -220,6 +127,7 @@
 
     <!-- yellow -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labyellow-50 hover:bg-labyellow-100 text-white py-2 px-4 rounded">Yello: 50</button>
       <button class="bg-labyellow-100 hover:bg-labyellow-200 text-white py-2 px-4 rounded">Yello: 100</button>
       <button class="bg-labyellow-200 hover:bg-labyellow-300 text-white py-2 px-4 rounded">Yello: 200</button>
       <button class="bg-labyellow-300 hover:bg-labyellow-400 text-white py-2 px-4 rounded">Yello: 300</button>
@@ -233,6 +141,7 @@
 
     <!-- green -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labgreen-50 hover:bg-labgreen-100 text-white py-2 px-4 rounded">Green: 50</button>
       <button class="bg-labgreen-100 hover:bg-labgreen-200 text-white py-2 px-4 rounded">Green: 100</button>
       <button class="bg-labgreen-200 hover:bg-labgreen-300 text-white py-2 px-4 rounded">Green: 200</button>
       <button class="bg-labgreen-300 hover:bg-labgreen-400 text-white py-2 px-4 rounded">Green: 300</button>
@@ -246,6 +155,7 @@
 
     <!-- sky -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labsky-50 hover:bg-labsky-100 text-white py-2 px-4 rounded">Sky: 50</button>
       <button class="bg-labsky-100 hover:bg-labsky-200 text-white py-2 px-4 rounded">Sky: 100</button>
       <button class="bg-labsky-200 hover:bg-labsky-300 text-white py-2 px-4 rounded">Sky: 200</button>
       <button class="bg-labsky-300 hover:bg-labsky-400 text-white py-2 px-4 rounded">Sky: 300</button>
@@ -259,6 +169,7 @@
 
     <!-- blue -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labblue-50 hover:bg-labblue-100 text-white py-2 px-4 rounded">Blue: 50</button>
       <button class="bg-labblue-100 hover:bg-labblue-200 text-white py-2 px-4 rounded">Blue: 100</button>
       <button class="bg-labblue-200 hover:bg-labblue-300 text-white py-2 px-4 rounded">Blue: 200</button>
       <button class="bg-labblue-300 hover:bg-labblue-400 text-white py-2 px-4 rounded">Blue: 300</button>
@@ -272,6 +183,7 @@
 
     <!-- purple -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labpurple-50 hover:bg-labpurple-100 text-white py-2 px-4 rounded">Purple: 50</button>
       <button class="bg-labpurple-100 hover:bg-labpurple-200 text-white py-2 px-4 rounded">Purple: 100</button>
       <button class="bg-labpurple-200 hover:bg-labpurple-300 text-white py-2 px-4 rounded">Purple: 200</button>
       <button class="bg-labpurple-300 hover:bg-labpurple-400 text-white py-2 px-4 rounded">Purple: 300</button>
@@ -285,6 +197,7 @@
 
     <!-- gray -->
     <div class="flex flex-col space-y-2 p-4">
+      <button class="bg-labgray-50 hover:bg-labgray-100 text-white py-2 px-4 rounded">Gray: 50</button>
       <button class="bg-labgray-100 hover:bg-labgray-200 text-white py-2 px-4 rounded">Gray: 100</button>
       <button class="bg-labgray-200 hover:bg-labgray-300 text-white py-2 px-4 rounded">Gray: 200</button>
       <button class="bg-labgray-300 hover:bg-labgray-400 text-white py-2 px-4 rounded">Gray: 300</button>
@@ -509,187 +422,159 @@
     </div>
   </div>
 
+  <div class="p-4 flex space-x-4">
+    <input type="text" class="border-2 border-labgray-500 text-labgray-500 rounded px-4 py-2" placeholder="input text" />
+    <input type="text" class="border-2 border-labblue-500 text-labblue-500 rounded px-4 py-2" placeholder="input text" />
+    <input type="text" class="border-2 border-labgreen-500 text-labgreen-500 rounded px-4 py-2" placeholder="input text" />
+    <input type="text" class="border-2 border-labyellow-500 text-labyellow-500 rounded px-4 py-2" placeholder="input text" />
+    <input type="text" class="border-2 border-labred-500 text-labred-500 rounded px-4 py-2" placeholder="input text" />
+  </div>
+
+  <div class="p-4 space-y-4">
+    <div class="rounded-md bg-labyellow-50 p-4">
+      <div class="flex">
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-labyellow-800">Attention needed</h3>
+          <div class="mt-2 text-sm text-labyellow-800">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam quo totam eius aperiam dolorum.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-md bg-labred-50 p-4">
+      <div class="flex">
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-labred-900">There were 2 errors with your submission</h3>
+          <div class="mt-2 text-sm text-labred-900">
+            <ul role="list" class="list-disc space-y-1 pl-5">
+              <li>Your password must be at least 8 characters</li>
+              <li>Your password must include at least one pro wrestling finishing move</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-md bg-labgreen-50 p-4">
+      <div class="flex">
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-labgreen-800">Order completed</h3>
+          <div class="mt-2 text-sm text-labgreen-700">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.</p>
+          </div>
+          <div class="mt-4">
+            <div class="-mx-2 -my-1.5 flex">
+              <button type="button" class="rounded-md bg-labgreen-50 px-2 py-1.5 text-sm font-medium text-labgreen-800 hover:bg-labgreen-100 focus:outline-none focus:ring-2 focus:ring-labgreen-600 focus:ring-offset-2 focus:ring-offset-labgreen-50">View status</button>
+              <button type="button" class="ml-3 rounded-md bg-labgreen-50 px-2 py-1.5 text-sm font-medium text-labgreen-800 hover:bg-labgreen-100 focus:outline-none focus:ring-2 focus:ring-labgreen-600 focus:ring-offset-2 focus:ring-offset-labgreen-50">Dismiss</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-md bg-labblue-50 p-4">
+      <div class="flex">
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-labblue-800">Order completed</h3>
+          <div class="mt-2 text-sm text-labblue-700">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.</p>
+          </div>
+          <div class="mt-4">
+            <div class="-mx-2 -my-1.5 flex">
+              <button type="button" class="rounded-md bg-labblue-50 px-2 py-1.5 text-sm font-medium text-labblue-800 hover:bg-labblue-100 focus:outline-none focus:ring-2 focus:ring-labblue-600 focus:ring-offset-2 focus:ring-offset-labblue-50">View status</button>
+              <button type="button" class="ml-3 rounded-md bg-labblue-50 px-2 py-1.5 text-sm font-medium text-labblue-800 hover:bg-labblue-100 focus:outline-none focus:ring-2 focus:ring-labblue-600 focus:ring-offset-2 focus:ring-offset-labblue-50">Dismiss</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 
   <h2 class="p-4 text-labgray-900 text-2xl">Code</h2>
 
-  <pre class="bg-labgray-800 text-white p-4">
-  {
+  <pre>
+    <code>
+  const labred = chroma.lab(50, 100, 100);
+  const labpink = chroma.lab(50, 100, 0);
+  const labyellow = chroma.lab(50, 0, 100);
+  const labgreen = chroma.lab(50, -100, 100);
+  const labsky = chroma.lab(50, -100, -100);
+  const labblue = chroma.lab(50, 0, -100);
+  const labpurple = chroma.lab(50, 100, -100);
+  const labgray = chroma.lab(50, 0, 0);
+
+  const tailwindColors = (chromaObject) => {
+    return {
+      50: chromaObject.brighten(2.5).hex(),
+      100: chromaObject.brighten(2.0).hex(),
+      200: chromaObject.brighten(1.5).hex(),
+      300: chromaObject.brighten(1.0).hex(),
+      400: chromaObject.brighten(0.5).hex(),
+      500: chromaObject.brighten(0.0).hex(),
+      600: chromaObject.brighten(-0.5).hex(),
+      700: chromaObject.brighten(-1.0).hex(),
+      800: chromaObject.brighten(-1.5).hex(),
+      900: chromaObject.brighten(-2.0).hex(),
+    }
+  }
+
+  const tailwindLinearGradientColors = (colorName) => {
+    const colorObjects = {
+      labred,
+      labpink,
+      labyellow,
+      labgreen,
+      labsky,
+      labblue,
+      labpurple,
+      labgray,
+    }
+
+    const results = {}
+    results[colorName + 'lg-50'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(2.5).hex() + ', ' + colorObjects[colorName].brighten(2.0).hex() + ')'
+    results[colorName + 'lg-100'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(2.0).hex() + ', ' + colorObjects[colorName].brighten(1.5).hex() + ')'
+    results[colorName + 'lg-200'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(1.5).hex() + ', ' + colorObjects[colorName].brighten(1.0).hex() + ')'
+    results[colorName + 'lg-300'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(1.0).hex() + ', ' + colorObjects[colorName].brighten(0.5).hex() + ')'
+    results[colorName + 'lg-400'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].brighten(0.5).hex() + ', ' + colorObjects[colorName].hex() + ')'
+    results[colorName + 'lg-500'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].hex() + ', ' + colorObjects[colorName].darken(0.5).hex() + ')'
+    results[colorName + 'lg-600'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(0.5).hex() + ', ' + colorObjects[colorName].darken(1.0).hex() + ')'
+    results[colorName + 'lg-700'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(1.0).hex() + ', ' + colorObjects[colorName].darken(1.5).hex() + ')'
+    results[colorName + 'lg-800'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(1.5).hex() + ', ' + colorObjects[colorName].darken(2.0).hex() + ')'
+    results[colorName + 'lg-900'] = 'linear-gradient(to bottom, ' + colorObjects[colorName].darken(2.0).hex() + ', ' + colorObjects[colorName].darken(2.5).hex() + ')'
+
+    return results;
+  }
+
+  tailwind.config = {
     theme: {
       extend: {
         colors: {
-          labred: {
-            100: chroma.lab(90, 100, 100).hex(),
-            200: chroma.lab(80, 100, 100).hex(),
-            300: chroma.lab(70, 100, 100).hex(),
-            400: chroma.lab(60, 100, 100).hex(),
-            500: chroma.lab(50, 100, 100).hex(),
-            600: chroma.lab(40, 100, 100).hex(),
-            700: chroma.lab(30, 100, 100).hex(),
-            800: chroma.lab(20, 100, 100).hex(),
-            900: chroma.lab(10, 100, 100).hex(),
-          },
-          labpink: {
-            100: chroma.lab(90, 100, 0).hex(),
-            200: chroma.lab(80, 100, 0).hex(),
-            300: chroma.lab(70, 100, 0).hex(),
-            400: chroma.lab(60, 100, 0).hex(),
-            500: chroma.lab(50, 100, 0).hex(),
-            600: chroma.lab(40, 100, 0).hex(),
-            700: chroma.lab(30, 100, 0).hex(),
-            800: chroma.lab(20, 100, 0).hex(),
-            900: chroma.lab(10, 100, 0).hex(),
-          },
-          labyellow: {
-            100: chroma.lab(90, 0, 100).hex(),
-            200: chroma.lab(80, 0, 100).hex(),
-            300: chroma.lab(70, 0, 100).hex(),
-            400: chroma.lab(60, 0, 100).hex(),
-            500: chroma.lab(50, 0, 100).hex(),
-            600: chroma.lab(40, 0, 100).hex(),
-            700: chroma.lab(30, 0, 100).hex(),
-            800: chroma.lab(20, 0, 100).hex(),
-            900: chroma.lab(10, 0, 100).hex(),
-          },
-          labgreen: {
-            100: chroma.lab(90, -100, 100).hex(),
-            200: chroma.lab(80, -100, 100).hex(),
-            300: chroma.lab(70, -100, 100).hex(),
-            400: chroma.lab(60, -100, 100).hex(),
-            500: chroma.lab(50, -100, 100).hex(),
-            600: chroma.lab(40, -100, 100).hex(),
-            700: chroma.lab(30, -100, 100).hex(),
-            800: chroma.lab(20, -100, 100).hex(),
-            900: chroma.lab(10, -100, 100).hex(),
-          },
-          labsky: {
-            100: chroma.lab(90, -1000, -100).hex(),
-            200: chroma.lab(80, -1000, -100).hex(),
-            300: chroma.lab(70, -1000, -100).hex(),
-            400: chroma.lab(60, -1000, -100).hex(),
-            500: chroma.lab(50, -1000, -100).hex(),
-            600: chroma.lab(40, -1000, -100).hex(),
-            700: chroma.lab(30, -1000, -100).hex(),
-            800: chroma.lab(20, -1000, -100).hex(),
-            900: chroma.lab(10, -1000, -100).hex(),
-          },
-          labblue: {
-            100: chroma.lab(90, 0, -100).hex(),
-            200: chroma.lab(80, 0, -100).hex(),
-            300: chroma.lab(70, 0, -100).hex(),
-            400: chroma.lab(60, 0, -100).hex(),
-            500: chroma.lab(50, 0, -100).hex(),
-            600: chroma.lab(40, 0, -100).hex(),
-            700: chroma.lab(30, 0, -100).hex(),
-            800: chroma.lab(20, 0, -100).hex(),
-            900: chroma.lab(10, 0, -100).hex(),
-          },
-          labpurple: {
-            100: chroma.lab(90, 100, -100).hex(),
-            200: chroma.lab(80, 100, -100).hex(),
-            300: chroma.lab(70, 100, -100).hex(),
-            400: chroma.lab(60, 100, -100).hex(),
-            500: chroma.lab(50, 100, -100).hex(),
-            600: chroma.lab(40, 100, -100).hex(),
-            700: chroma.lab(30, 100, -100).hex(),
-            800: chroma.lab(20, 100, -100).hex(),
-            900: chroma.lab(10, 100, -100).hex(),
-          },
-          labgray: {
-            100: chroma.lab(90, 0, 0).hex(),
-            200: chroma.lab(80, 0, 0).hex(),
-            300: chroma.lab(70, 0, 0).hex(),
-            400: chroma.lab(60, 0, 0).hex(),
-            500: chroma.lab(50, 0, 0).hex(),
-            600: chroma.lab(40, 0, 0).hex(),
-            700: chroma.lab(30, 0, 0).hex(),
-            800: chroma.lab(20, 0, 0).hex(),
-            900: chroma.lab(10, 0, 0).hex(),
-          }
+          labred: tailwindColors(labred),
+          labpink: tailwindColors(labpink),
+          labyellow: tailwindColors(labyellow),
+          labgreen: tailwindColors(labgreen),
+          labsky: tailwindColors(labsky),
+          labblue: tailwindColors(labblue),
+          labpurple: tailwindColors(labpurple),
+          labgray: tailwindColors(labgray)
         },
         backgroundImage: {
-          'labredlg-100': `linear-gradient(to bottom, ${chroma.lab(90, 100, 100).hex()}, ${chroma.lab(90, 100, 100).darken(0.5).hex()})`,
-          'labredlg-200': `linear-gradient(to bottom, ${chroma.lab(80, 100, 100).hex()}, ${chroma.lab(80, 100, 100).darken(0.5).hex()})`,
-          'labredlg-300': `linear-gradient(to bottom, ${chroma.lab(70, 100, 100).hex()}, ${chroma.lab(70, 100, 100).darken(0.5).hex()})`,
-          'labredlg-400': `linear-gradient(to bottom, ${chroma.lab(60, 100, 100).hex()}, ${chroma.lab(60, 100, 100).darken(0.5).hex()})`,
-          'labredlg-500': `linear-gradient(to bottom, ${chroma.lab(50, 100, 100).hex()}, ${chroma.lab(50, 100, 100).darken(0.5).hex()})`,
-          'labredlg-600': `linear-gradient(to bottom, ${chroma.lab(40, 100, 100).hex()}, ${chroma.lab(40, 100, 100).darken(0.5).hex()})`,
-          'labredlg-700': `linear-gradient(to bottom, ${chroma.lab(30, 100, 100).hex()}, ${chroma.lab(30, 100, 100).darken(0.5).hex()})`,
-          'labredlg-800': `linear-gradient(to bottom, ${chroma.lab(20, 100, 100).hex()}, ${chroma.lab(20, 100, 100).darken(0.5).hex()})`,
-          'labredlg-900': `linear-gradient(to bottom, ${chroma.lab(10, 100, 100).hex()}, ${chroma.lab(10, 100, 100).darken(0.5).hex()})`,
-
-          'labpinklg-100': `linear-gradient(to bottom, ${chroma.lab(90, 100, 0).hex()}, ${chroma.lab(90, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-200': `linear-gradient(to bottom, ${chroma.lab(80, 100, 0).hex()}, ${chroma.lab(80, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-300': `linear-gradient(to bottom, ${chroma.lab(70, 100, 0).hex()}, ${chroma.lab(70, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-400': `linear-gradient(to bottom, ${chroma.lab(60, 100, 0).hex()}, ${chroma.lab(60, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-500': `linear-gradient(to bottom, ${chroma.lab(50, 100, 0).hex()}, ${chroma.lab(50, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-600': `linear-gradient(to bottom, ${chroma.lab(40, 100, 0).hex()}, ${chroma.lab(40, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-700': `linear-gradient(to bottom, ${chroma.lab(30, 100, 0).hex()}, ${chroma.lab(30, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-800': `linear-gradient(to bottom, ${chroma.lab(20, 100, 0).hex()}, ${chroma.lab(20, 100, 0).darken(0.5).hex()})`,
-          'labpinklg-900': `linear-gradient(to bottom, ${chroma.lab(10, 100, 0).hex()}, ${chroma.lab(10, 100, 0).darken(0.5).hex()})`,
-
-          'labyellowlg-100': `linear-gradient(to bottom, ${chroma.lab(90, 0, 100).hex()}, ${chroma.lab(90, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-200': `linear-gradient(to bottom, ${chroma.lab(80, 0, 100).hex()}, ${chroma.lab(80, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-300': `linear-gradient(to bottom, ${chroma.lab(70, 0, 100).hex()}, ${chroma.lab(70, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-400': `linear-gradient(to bottom, ${chroma.lab(60, 0, 100).hex()}, ${chroma.lab(60, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-500': `linear-gradient(to bottom, ${chroma.lab(50, 0, 100).hex()}, ${chroma.lab(50, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-600': `linear-gradient(to bottom, ${chroma.lab(40, 0, 100).hex()}, ${chroma.lab(40, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-700': `linear-gradient(to bottom, ${chroma.lab(30, 0, 100).hex()}, ${chroma.lab(30, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-800': `linear-gradient(to bottom, ${chroma.lab(20, 0, 100).hex()}, ${chroma.lab(20, 0, 100).darken(0.5).hex()})`,
-          'labyellowlg-900': `linear-gradient(to bottom, ${chroma.lab(10, 0, 100).hex()}, ${chroma.lab(10, 0, 100).darken(0.5).hex()})`,
-
-          'labgreenlg-100': `linear-gradient(to bottom, ${chroma.lab(90, -100, 100).hex()}, ${chroma.lab(90, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-200': `linear-gradient(to bottom, ${chroma.lab(80, -100, 100).hex()}, ${chroma.lab(80, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-300': `linear-gradient(to bottom, ${chroma.lab(70, -100, 100).hex()}, ${chroma.lab(70, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-400': `linear-gradient(to bottom, ${chroma.lab(60, -100, 100).hex()}, ${chroma.lab(60, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-500': `linear-gradient(to bottom, ${chroma.lab(50, -100, 100).hex()}, ${chroma.lab(50, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-600': `linear-gradient(to bottom, ${chroma.lab(40, -100, 100).hex()}, ${chroma.lab(40, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-700': `linear-gradient(to bottom, ${chroma.lab(30, -100, 100).hex()}, ${chroma.lab(30, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-800': `linear-gradient(to bottom, ${chroma.lab(20, -100, 100).hex()}, ${chroma.lab(20, -100, 100).darken(0.5).hex()})`,
-          'labgreenlg-900': `linear-gradient(to bottom, ${chroma.lab(10, -100, 100).hex()}, ${chroma.lab(10, -100, 100).darken(0.5).hex()})`,
-
-          'labskylg-100': `linear-gradient(to bottom, ${chroma.lab(90, -1000, -100).hex()}, ${chroma.lab(90, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-200': `linear-gradient(to bottom, ${chroma.lab(80, -1000, -100).hex()}, ${chroma.lab(80, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-300': `linear-gradient(to bottom, ${chroma.lab(70, -1000, -100).hex()}, ${chroma.lab(70, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-400': `linear-gradient(to bottom, ${chroma.lab(60, -1000, -100).hex()}, ${chroma.lab(60, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-500': `linear-gradient(to bottom, ${chroma.lab(50, -1000, -100).hex()}, ${chroma.lab(50, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-600': `linear-gradient(to bottom, ${chroma.lab(40, -1000, -100).hex()}, ${chroma.lab(40, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-700': `linear-gradient(to bottom, ${chroma.lab(30, -1000, -100).hex()}, ${chroma.lab(30, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-800': `linear-gradient(to bottom, ${chroma.lab(20, -1000, -100).hex()}, ${chroma.lab(20, -1000, -100).darken(0.5).hex()})`,
-          'labskylg-900': `linear-gradient(to bottom, ${chroma.lab(10, -1000, -100).hex()}, ${chroma.lab(10, -1000, -100).darken(0.5).hex()})`,
-
-          'labbluelg-100': `linear-gradient(to bottom, ${chroma.lab(90, 0, -100).hex()}, ${chroma.lab(90, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-200': `linear-gradient(to bottom, ${chroma.lab(80, 0, -100).hex()}, ${chroma.lab(80, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-300': `linear-gradient(to bottom, ${chroma.lab(70, 0, -100).hex()}, ${chroma.lab(70, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-400': `linear-gradient(to bottom, ${chroma.lab(60, 0, -100).hex()}, ${chroma.lab(60, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-500': `linear-gradient(to bottom, ${chroma.lab(50, 0, -100).hex()}, ${chroma.lab(50, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-600': `linear-gradient(to bottom, ${chroma.lab(40, 0, -100).hex()}, ${chroma.lab(40, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-700': `linear-gradient(to bottom, ${chroma.lab(30, 0, -100).hex()}, ${chroma.lab(30, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-800': `linear-gradient(to bottom, ${chroma.lab(20, 0, -100).hex()}, ${chroma.lab(20, 0, -100).darken(0.5).hex()})`,
-          'labbluelg-900': `linear-gradient(to bottom, ${chroma.lab(10, 0, -100).hex()}, ${chroma.lab(10, 0, -100).darken(0.5).hex()})`,
-
-          'labpurplelg-100': `linear-gradient(to bottom, ${chroma.lab(90, 100, -100).hex()}, ${chroma.lab(90, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-200': `linear-gradient(to bottom, ${chroma.lab(80, 100, -100).hex()}, ${chroma.lab(80, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-300': `linear-gradient(to bottom, ${chroma.lab(70, 100, -100).hex()}, ${chroma.lab(70, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-400': `linear-gradient(to bottom, ${chroma.lab(60, 100, -100).hex()}, ${chroma.lab(60, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-500': `linear-gradient(to bottom, ${chroma.lab(50, 100, -100).hex()}, ${chroma.lab(50, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-600': `linear-gradient(to bottom, ${chroma.lab(40, 100, -100).hex()}, ${chroma.lab(40, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-700': `linear-gradient(to bottom, ${chroma.lab(30, 100, -100).hex()}, ${chroma.lab(30, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-800': `linear-gradient(to bottom, ${chroma.lab(20, 100, -100).hex()}, ${chroma.lab(20, 100, -100).darken(0.5).hex()})`,
-          'labpurplelg-900': `linear-gradient(to bottom, ${chroma.lab(10, 100, -100).hex()}, ${chroma.lab(10, 100, -100).darken(0.5).hex()})`,
-
-          'labgraylg-100': `linear-gradient(to bottom, ${chroma.lab(90, 0, 0).hex()}, ${chroma.lab(90, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-200': `linear-gradient(to bottom, ${chroma.lab(80, 0, 0).hex()}, ${chroma.lab(80, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-300': `linear-gradient(to bottom, ${chroma.lab(70, 0, 0).hex()}, ${chroma.lab(70, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-400': `linear-gradient(to bottom, ${chroma.lab(60, 0, 0).hex()}, ${chroma.lab(60, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-500': `linear-gradient(to bottom, ${chroma.lab(50, 0, 0).hex()}, ${chroma.lab(50, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-600': `linear-gradient(to bottom, ${chroma.lab(40, 0, 0).hex()}, ${chroma.lab(40, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-700': `linear-gradient(to bottom, ${chroma.lab(30, 0, 0).hex()}, ${chroma.lab(30, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-800': `linear-gradient(to bottom, ${chroma.lab(20, 0, 0).hex()}, ${chroma.lab(20, 0, 0).darken(0.5).hex()})`,
-          'labgraylg-900': `linear-gradient(to bottom, ${chroma.lab(10, 0, 0).hex()}, ${chroma.lab(10, 0, 0).darken(0.5).hex()})`,
+          ...tailwindLinearGradientColors('labred'),
+          ...tailwindLinearGradientColors('labpink'),
+          ...tailwindLinearGradientColors('labyellow'),
+          ...tailwindLinearGradientColors('labgreen'),
+          ...tailwindLinearGradientColors('labsky'),
+          ...tailwindLinearGradientColors('labblue'),
+          ...tailwindLinearGradientColors('labpurple'),
+          ...tailwindLinearGradientColors('labgray'),
         }
       }
     }
   }
+    </code>
   </pre>
 </body>
 </html>
